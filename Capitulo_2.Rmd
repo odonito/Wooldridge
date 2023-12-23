@@ -1,0 +1,30 @@
+---
+title: "Capitulo 2"
+author: "Matheus Donito"
+date: "2023-12-23"
+output: html_document
+---
+```{r message=FALSE, include=FALSE}
+# Você vai precisar instalar cada uma dessas bibliotecas
+library(wooldridge)
+library(lmtest)
+library(plm)
+library(stargazer)
+library(car)
+library(sandwich)
+library(lmtest)
+library(dplyr) 
+library(sampleSelection)
+library(texreg)
+library(MASS)
+```
+# Problemas
+1. Seja kids o número de filhos de uma mulher, e educ os anos de educação da mulher. Um modelo simples que relaciona a fertilidade a anos de educação é
+$$kids =\beta_0 + \beta_1educ + u,$$
+em que u é um erro não observável.
+i) Que tipos de fatores estão contidos em u? É provável que eles estejam correlacio-nados com o nível de educação?
+R: A renda é um dos fatores contidos em u e está correlacionado com educação dado que pessoas com maiores rendas tendem a se educar mais.
+(ii) Uma análise de regressão simples mostrará o efeito ceteris paribus da educação sobre a fertilidade? Explique
+R: Não, visto que os outros fatores não estarão sendo controlados sendo mantidos em u
+
+2.
