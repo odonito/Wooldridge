@@ -367,17 +367,351 @@ u,\]</span> em que u é um erro não observável.</li>
 </ol>
 <ol style="list-style-type: lower-roman">
 <li>Que tipos de fatores estão contidos em u? É provável que eles
-estejam correlacio-nados com o nível de educação? R: A renda é um dos
-fatores contidos em u e está correlacionado com educação dado que
-pessoas com maiores rendas tendem a se educar mais.</li>
+estejam correlacio-nados com o nível de educação?</li>
 </ol>
+<p>R: A renda é um dos fatores contidos em u e está correlacionado com
+educação dado que pessoas com maiores rendas tendem a se educar
+mais.</p>
 <ol start="2" style="list-style-type: lower-roman">
 <li>Uma análise de regressão simples mostrará o efeito ceteris paribus
-da educação sobre a fertilidade? Explique R: Não, visto que os outros
-fatores não estarão sendo controlados sendo mantidos em u</li>
+da educação sobre a fertilidade? Explique</li>
 </ol>
+<p>R: Não, visto que os outros fatores não estarão sendo controlados
+sendo mantidos em u</p>
 <ol start="2" style="list-style-type: decimal">
-<li></li>
+<li>No modelo de regressão linear simples <span class="math inline">\(y
+= \beta_0 + \beta_1x + u\)</span>, suponha que <span class="math inline">\(E(u) \neq 0\)</span>. Fazendo <span class="math inline">\(\alpha_0 = E(u)\)</span>, mostre que o modelo pode
+sempre ser reescrito com a mesma inclinação, mas com um novo intercepto
+e erro, em que o novo erro tem um valor esperado zero.</li>
+</ol>
+<p>R: <span class="math display">\[
+y = \beta_0 + \beta_1x + u \\
+y = \beta_0 + \beta_1x + \alpha_0 \\
+y = \bar{y}-\hat{\beta_1}\bar{x} + \beta_1x + \alpha_0
+\]</span> 3. A tabela seguinte contém as variáveis GPA (nota média em
+curso superior nos Estados Unidos) e ACT (nota do teste de avaliação de
+conhecimentos para ingresso em curso superior nos Estados Unidos) com as
+notas hipotéticas de oito estudantes de curso su-perior. GPA está
+baseado em uma escala de quatro pontos e foi arredondado para um dígito
+após o ponto decimal.</p>
+<p>R:</p>
+<pre><code>##   Estudante GPA ACT
+## 1         1 2.8  21
+## 2         2 3.4  24
+## 3         3 3.0  26
+## 4         4 3.5  27
+## 5         5 3.6  29
+## 6         6 3.0  25
+## 7         7 2.7  25
+## 8         8 3.7  30</code></pre>
+<ol style="list-style-type: lower-roman">
+<li>Estime a relação entre GPA e ACT usando MQO; isto é, obtenha as
+estimativas de intercepto e de inclinação da equação <span class="math display">\[\hat{GPA}=\hat{\beta_0}
++\hat{\beta_1}ACT\]</span>. Comente a direção da relação. O intercepto
+tem uma interpretação útil aqui? Explique. Qual deveria ser o valor
+previsto do GPA se a nota ACT aumentasse em cinco pontos?</li>
+</ol>
+<p>R:</p>
+<pre><code>## 
+## Call:
+## lm(formula = GPA ~ ACT, data = estudantes)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.42308 -0.14863  0.06703  0.10742  0.37912 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept)  0.56813    0.92842   0.612   0.5630  
+## ACT          0.10220    0.03569   2.863   0.0287 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.2692 on 6 degrees of freedom
+## Multiple R-squared:  0.5774, Adjusted R-squared:  0.507 
+## F-statistic: 8.199 on 1 and 6 DF,  p-value: 0.02868</code></pre>
+<p>A direção da relação é positiva, ou seja, quanto maior a nota do
+teste de avaliação de conhecimentos para ingresso em curso superior nos
+EUA (ACT) maior será sua nota média no curso superior nos EUA (GPA). A
+interpretação do intercepto seria do GPA de um aluno caso ele tirasse 0
+no vestibular dos EUA. No entanto, não existe observação com valor zero
+e possivelmente alguém que zerou esse teste não teria sido aprovado na
+faculdade. Logo, o intercepto não traz muita informação. Para um aumento
+de 5 pontos em ACT o valor do GPA deve aumentar em 0,511 pontos somados
+ao intercepto de 0,568 resultaria em um GPA de 1,079.</p>
+<ol start="2" style="list-style-type: lower-roman">
+<li>Calcule os valores estimados e os resíduos de cada observação e
+verifique que a soma dos resíduos é (aproximadamente) zero.</li>
+</ol>
+<p>R:</p>
+<pre><code>## [1] -2.775558e-17</code></pre>
+<pre><code>##   Estudante GPA GPA_Esimado    Residuos
+## 1         1 2.8    2.714286  0.08571429
+## 2         2 3.4    3.020879  0.37912088
+## 3         3 3.0    3.225275 -0.22527473
+## 4         4 3.5    3.327473  0.17252747
+## 5         5 3.6    3.531868  0.06813187
+## 6         6 3.0    3.123077 -0.12307692
+## 7         7 2.7    3.123077 -0.42307692
+## 8         8 3.7    3.634066  0.06593407</code></pre>
+<p>Os valores dos resíduos tendem a zero como afirmado na questão.</p>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Qual é o valor previsto do GPA quando ACT = 20?</li>
+</ol>
+<p>R: O valor previsto do GPA será <span class="math display">\[
+GPA = 0,56813 + 0,10220 * 20
+GPA = 0,56813 + 2,044
+GPA = 2,61213
+\]</span> O GPA estimado para alguém que pontuou 20 pontos no vestibular
+é 2,61213.</p>
+<ol start="4" style="list-style-type: lower-roman">
+<li>Quanto da variação do GPA dos 8 estudantes é explicado pela ACT?
+Explique.</li>
+</ol>
+<p>R: Os estudantes mais próximos da linha de regressão são os
+estudantes 1, 5 e 8.</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Os dados do arquivo BWGHT contêm informações de nascimentos por
+mulheres nos Estados Unidos. As duas variáveis de interesse são: a
+variável dependente, peso dos recém-nascidos em onças (bwght), e a
+variável explicativa, número médio de cigarros que a mãe fumou por dia
+durante a gravidez (cigs). A seguinte regressão simples foi estimada
+usando dados de n = 1.388 nascimentos: <span class="math display">\[
+\hat{bwght}=119,77 - 0,514cigs
+\]</span></li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li>Qual é o peso de nascimento previsto quando cigs 5 0? E quando cigs
+5 20 (um maço por dia)? Comente a diferença.</li>
+</ol>
+<p>R: Quando o número médios de cigarros que a mãe fumou por dia durante
+a gravidez é zero tem-se o peso do recém nascido será 119,77 onças.</p>
+<ol start="2" style="list-style-type: lower-roman">
+<li>O modelo de regressão simples necessariamente captura uma relação
+causal entre o peso de nascimento da criança e os hábitos de fumar da
+mãe? Explique.</li>
+</ol>
+<p>R: Não, o modelo de regressão linear não captura correlação entre as
+variáveis dependentes e independentes apenas demonstra a correlação
+entre elas.</p>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Para prever um peso de nascimento de 125 onças, qual deveria ser a
+magnitude de cigs? Comente.</li>
+</ol>
+<p>R: Segundo a estimativa, para um bebê ter 125 onças precisaria que a
+mãe tivesse um “crédito” de 10,47 cigarros, o que não seria possível na
+vida real o modelo não serve para capturar o peso de bebês com mais de
+125 onças tendo seu peso máximo atrelado ao intercepto quando a mãe não
+fuma. <span class="math display">\[
+      \hat{bwght}=119,77 - 0,514cigs \\
+      125=119,77 - 0,514cigs \\
+      125- 119,77=-0,514cigs \\
+      5,23=-0,514cigs \\
+      cigs=-10,17 \\
+\]</span></p>
+<ol start="4" style="list-style-type: lower-roman">
+<li>A proporção de mulheres que não fumou durante a gravidez na amostra
+é cerca de 0,85. Isso ajuda a reconciliar sua conclusão do item
+(iii)?</li>
+</ol>
+<p>R: Dado que 85% das mães não fumaram o intercepto deve capturar bem o
+peso médio de um bebê vindo de uma mãe não fumante no qual o intercepto
+captura o filho de mães fumantes devido a seu peso menor.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Na função de consumo linear cons <span class="math display">\[\hat{cons}=\hat{\beta_0} +
+\hat{\beta_1}inc,\]</span> a MPC – propensão marginal a consumir
+(estimada) é simplesmente a inclinação <span class="math inline">\(\hat{\beta_1}\)</span>, ao passo que a APC –
+propensão média a consumir é <span class="math inline">\(\hat{cons}/inc
+= \hat{\beta_0}/inc +\hat{\beta_1}\)</span>. Usando as observações de
+renda e consumo anuais de 100 famílias (ambas medidas em dóla-res),
+obteve-se a seguinte equação: <span class="math display">\[\hat{cons}=-124,84 + 0,853inc\\ n=100,
+R^2=0,692\]</span>,</li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li>Interprete o intercepto dessa equação e comente seu sinal e
+magnitude.</li>
+</ol>
+<p>R: O consumo seria de -124,84 dólares dado uma renda zero de
+consumir, o sinal negativo não tem interpretação real pois o indivíduo
+não consumiria negativo caso sua renda fosse nula.</p>
+<ol start="2" style="list-style-type: lower-roman">
+<li>Qual é o consumo previsto quando a renda familiar é US$ 30.000?</li>
+</ol>
+<p>R: O consumo familiar previsto para uma renda familiar de 30mil
+dólares é <span class="math display">\[
+\hat{cons}=-124,84 + 0,853*30000 \\
+\hat{cons}=25714.84
+\]</span></p>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Com inc sobre o eixo de x, desenhe um gráfico da MPC e da APC
+estimadas.</li>
+</ol>
+<p>R:</p>
+<pre class="r"><code># Criando um intervalo de valores para inc
+inc &lt;- seq(0, 10000, by = 10)  # Mudar o intervalo conforme necessário
+
+# Calculando os valores de MPC e APC
+cons &lt;- -124.84 + 0.853 * inc
+MPC &lt;- rep(0.853, length(inc))  # Repetir o valor do coeficiente beta1
+APC &lt;- (-124.84 / inc) + 0.853
+
+# Plotando o gráfico
+plot(inc, MPC, type = &quot;l&quot;, col = &quot;blue&quot;, xlab = &quot;Renda (inc)&quot;, ylab = &quot;Propensão&quot;)
+lines(inc, APC, col = &quot;red&quot;)
+legend(&quot;topright&quot;, legend = c(&quot;MPC&quot;, &quot;APC&quot;), col = c(&quot;blue&quot;, &quot;red&quot;), lty = 1)</code></pre>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUAAAAPACAMAAADDuCPrAAAA51BMVEUAAAAAADoAAGYAAP8AOjoAOmYAOpAAZmYAZrY6AAA6OgA6Ojo6OmY6ZmY6ZpA6ZrY6kJA6kLY6kNtmAABmADpmOgBmOjpmZjpmZmZmZpBmkJBmkLZmkNtmtrZmtttmtv+QOgCQZgCQZjqQZmaQkDqQkGaQkJCQkLaQtraQttuQtv+Q2/+2ZgC2Zjq2kDq2kGa2kJC2kLa2tpC2tra2ttu225C227a229u22/+2///bkDrbkGbbtmbbtpDbtrbb25Db27bb29vb2//b/7bb////AAD/tmb/25D/27b/29v//7b//9v///98tKtgAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAgAElEQVR4nO3dfWPT2ILYYZsdKB5YaKFwPctdYJm2CzvhpiXTwuQCS2bZELC//+epJL/JLwTr+FjSkZ7nnyGeRPEh0Q+9Hg2mAAQZNP0GAFIloACBBBQgkIACBBJQgEACChBIQAECCShAIAEFCCSgAIEEFCCQgAIEElCAQAIKEEhAAQIJKEAgAQUIJKAAgQQUIJCAAgQSUIBAAgoQSEABAgkoQCABBQgkoACBBBQgkIACBBJQgEACChBIQAECCShAIAEFCCSgAIEEFCCQgAIEElCAQAIKEEhAAQIJKEAgAQUIJKAAgQQUIJCAAgQSUIBAAgoQSEABAgkoQCABBQgkoACBBBQgkIACBBJQgEACChBIQAECCShAIAEFCCSgAIEEFCCQgAIEElCAQAIKEEhAAQIJKEAgAQUIJKAAgQQUIJCAAgQSUIBAAgoQSEABAgkoQCABBQgkoACBBBQgkIACBBJQgEACChBIQAECCShAIAEFCCSgAIEEFCCQgAIEElCAQAIKEEhAAQIJKEAgAQUIJKAAgQQUIJCAAgQSUIBAAgoQSEABAgkoQCABBQgkoACBBBQgkIACBBJQgEACChBIQAECCShAIAEFCCSgAIEEFCCQgAIEElCAQAIKEEhAAQIJKEAgAQUIJKAAgQQUIJCAAgQSUIBAAgoQSEABAgkoQCABBQgkoACBBBQgkIACBBJQgEACChBIQAECCShAIAEFCCSgAIEEFCCQgAIEElCAQAIKEEhAAQIJKEAgAQUIJKAAgQQUIJCAAgQSUIBAAgoQSEABAgkoQCABBQgkoACBBBQgkIACBBJQgEACChBIQAECCShAIAEFCCSgAIGOGtDJ6eM7//ivn5cff3s4uPHHMb8hQI2OGdC/jwa54ZNFQisHdAAQTfTIHTGg58t3fWte0KoBbfAvGuig2JU7XkC/ZNufN19dXLzO/zvLZvWAHuetARV0ZkVMKaDniy3Pq0eLggooJKgzK2JCAZ08Hwyerf5YtFRAIUGdWRETCmg5lnlBb08FFJLUmRUx0YDmHwweCCgkqTMrYqoBzc8oDX8TUEhRZ1bEhAJaOgaauxwMbrwTUEhQZ1bEhAKan4W/vf7hjf8noJCezqyIKQU0vw703p+rj0+K61gFFFLTmRUxpYAWdyKVe/laQCFFnVkRkwro9P1ovZfZxwIKyenMiphWQKeTD798Xvv49UhAITWdWRETC+ihOvNzg5R1ZkUUUKBunVkRBRSoW2dWRAEF6taZFTHxgF5/J1Id058ClXVmRRRQoG6dWRE7HdBtnfm5Qco6syImHtDp14s/f/xJK535uUHKOrMiph7Qijrzc4OUdWZFFFCgbp1ZEQUUqFtnVkQBBerWmRVRQIG6dWZFFFCgbp1ZEQUUqFtnVkQBBerWzIqYP9Ki/GDK2WOBHiz/18zwzpPyxeWTD49H2avrLy4lFND8UfA7uBMJUtNgQMsPpiyashnQvKF/XXzG5HS0fPX+560lCihQuwYDWg7G5WB3QJfbqfmz1FdubRc0oYBOrx4JKHRBYwG9s7YPf5J/vAjo4vXJ6lFrRT9vvsp33j893th6nUkpoMVwHhy0BAGFFmgsoP80KlXw28Ph/9wO6OwB6sVHy0OkufebB1BzSQW0KOjWEKoQUGiBxgL69Hlpn/VycOv9roDm4cwzm4f0wdqXb+3EpxXQytPXbRJQaIHGAvqsvK/+fPDgcmdAz2cB3ShmXp93G4tMLKDTy8N24gUUWqC5gH5Z7cN/Gd3447qAbu3wXqR9Eik3eX7QJqiAQgs0F9BSQc6zSu4O6EnxatbaH8YmtYBOv4zH/xb+1QIKLfCDFfEfgl272KKSy1RmKX22O6Dzk0iXOy9cqjSQAK1OlIBCC1y/Iob3c4+ALvfh8z34XQG9eD2alVNAtwgotEBzu/Cro4D5Hnw5oGu3Iv02Lf7f9oWfGwQUqFuDAV1sbBZ78N8JaNFPW6DbBBRaoMmAzvfhiz34XQH96e6rWTazTxTQdQIKLdBkQOf78CdFRnefhZ/59nC+Kbow2Z6QSUCBujUZ0Nl/vj1cHOf8bkC3rgPNPvn+xucIKFC3RgNa7MNfznbPrwvo1r2bJ9u38QgoULdGA5qF8MYfJ7MWXhvQjXvhL3fM/SagQN2aDWhWwn9+uDzT/v2AFqeWVrMxjXbcRy6gQN2aDWgxN/ts5/z6gBbzgf6UP8xj8uHxzhmVBRSoW7MBLc3zeX1Ap9/WJnG/uX1nvIACdWs4oJeLa+V/FNDp5PWqn4k/EykGAYUWaDig2T78fG/8RwGdTr+eduSpnDEIKLRAZ1ZEAQXq1pkVUUCBunVmRRRQoG6dWREFFKhbZ1ZEAQXq1pkVUUCBunVmRRRQoG6dWREFFKhbZ1ZEAQXq1pkVUUCBunVmRRRQoG6dWREFFKhbZ1ZEAQXq1pkVUUCBunVmRRRQoG6dWREFFKhbkyvi5fqzjc5XU84P12dNnny4birlGQEF6tbgilg8KK40+/x5+alHg+Ffl593Orr2YR4zAgrUrcEVMX/Y++D26uP1gC7bWnR2aftxnHMCCtStwRXxfDD8efFIudnHy+3RSf7o9xvFozeLft58le+8f3q8Xtw1AgrUrbkVMX+e3PvFQ41za4+TyzdPi49WDz7OvB9895FzAgrUrbkVMX8MZxbRG8tHvK8/j/NktrGZh3TV2PxzvrMTL6BA3ZpbEU/y3feTUjTPN08p3Z5uFTMv7rudixNQoG6NrYjZpmVWxsvSQc1dAc2PgK7ts184iVQQUGiBxlbE82LXPAvk8jTS1i78gyKzq338awkoULcfrIj/GewH33dRzvPVIc5dJ5Eur7lwqdJAArQ6UQIKLXD9ihjezx8FNAvk7fl/F5uYpYBevB7Nyimg3yGg0AJNrYiLs0elg5wbF9IXG6iX37/wc4OAAnVraEVcXb+02sY83+6nLdDvEVBogYZWxMvtVpYD+tPdV7Nszs7V70NAgbo1syKu398+P410vuMuo2xLtXSzZ/6V35uQSUCBujWzIn4ZrQV0tje/K6Bb14Fmm673dy5SQIG6NbMili5eWjVyV0C37t08WbuzsyShgGab1bvsecHr/M0JKDSvkRVxfcd80cidAd24F/7yu50RUKBujayI6+fWs0YurqnfMdPS+dpsTKPvbYCmFNDp1SMBhS5oZEVc3w/P9+Hn84bsCGhxvumn/GEekw/5fKDfOymfUkCLQX3nH4I9CSi0QBMr4uYN7vP98t0BnX5b21y7+b3NtKQCun1yrCoBhRZoYkU837i9KD8m+Oy7AZ1OXq/62ZlnIq3NhBpAQKEFGlgRt7e+Too98+8FdDr9etq9p3JeHrYTL6DQAp1ZEVMLaPbPyCGboJ35uUHKOrMiphbQ6Zfx+N/Cv7ozPzdIWWdWxOQCepjO/NwgZZ1ZEQUUqFtnVkQBBerWmRVRQIG6dWZFFFCgbp1ZEQUUqFtnVsTEA3r9nUm75h6p8c0Bu3VmRRRQoG6dWRE7HdBtnfm5Qco6syImHtDp14trbvTf1pmfG6SsMyti6gGtqDM/N0hZZ1ZEAQXq1pkVUUCBunVmRRRQoG6dWREFFKhbZ1ZEAQXq1pkVUUCBunVmRRRQoG6dWRETCmj+FNId3IkEqenMiiigQN06syImFNDp1SMBhS7ozIqYUkDzZxof9FT4Dv3cIGU7dybTFP2vJvYCS/KCPjtkAQIKLdB09SKK/lcTe4FlVaev2ySgQDyJBXR6edhOvIAC8aQW0Gwn/pBNUAEF4kktoNMv4/G/hX+1gALxJBfQwwgoEI+AAgQSUIBAAgoQSEABAgkoQCABBQgkoACBBBQgkIACBBJQgEACChBIQAECCShAIAEFCCSgAIEEFCCQgAIEElCAQAIKEEhAAQIJKEAgAQUIJKAAgQQUIJCAAgQSUIBAAgoQSEABAgkoQCABBQgkoACBBBQgkIACBBJQgEACChBIQAECCShAIAEFCCSgAIEEFCBQggGdXHw8Ozv7/eJzwNcKKBBPagH99GKwcu9t1S8XUCCetAJ69Wiw7uZv1RYgoEA8SQX0cpRH88545uf8g+GzSksQUCCelAL67WEWzFelFz5kQb3xR5VFCCgQT0oBPd/KZZ7UB1UWIaBAPAkFdPJ8MNjcYb8cDG5VORsvoEA8CQU029zc2l/f9dp1BBSIR0ABAiUU0GwXfrh51ZJdeKA5CQV0erJVy/yw6O0qixBQIJ6UAvpllBX0XemFq6yfWxul1xJQIJ6UAppfx5QVc/zyLPdmdiV9pauYBBSIKKmATt+PNm7lHD6ttgABBeJJK6DTyWk5ocMnVWdkElAgnsQCmpl8Ojsdj8dPzt4GzGcnoEA86QX0IAIKxCOgAIEEFCCQgAIESjyg198LP9ihxjcHdJyAAgTqdEC3CSgQT+IBnX69+LPKpwsoEE/qAa1IQIF4BBQgkIACBBJQgEACChBIQAECCShAIAEFCJRQQL893HVrpjuRgKYIKECghAI6vXokoECLpBTQ6eR51ccYbxJQIJ6kAloU9NkhCxBQIJ60Alp5+rpNAgrEk1hAp5eH7cQLKBBPagHNduIP2QQVUCCe1AI6/TIe/1v4VwsoEE9yAT2MgALxCChAIAEFCCSgAIEEFCCQgAIEElCAQAIKEEhAAQIJKEAgAQUIJKAAgQQUIJCAAgQSUIBAAgoQSEABAgkoQCABBQgkoACBBBQgkIACBBJQgEACChCovoB+Pcv8/mfsb1eNgALx1BXQ9z8PZoZPY3/DKgQUiKemgL4erNz/HPtb7k9AgXjqCeh5vul57+zszYtR9qfbsb/l/gQUiKeWgH4ZLbc7J9m26PC32N9zbwIKxFNLQE/KW50nTW6CCigQTx0BnTwvb3Rmm6O3GjsKKqBAPHUE9NvDwY0/vvNRzQQUiEdAAQLZhQcI5CQSQKBaAno5GAwWNyC9z/78LPb33JuAAvHUcyF9ttU5uPny4uLizSMX0gNdUU9AJ89Lt3I2dwRUQIGYaroXfrK8GX7Y5K3wAgpEVN90dh9/HY/Hv/we+9tVI6BAPCZUBggkoACBGgnoxUGHQb9+yue2vwia215AgXjqOon0Zrxw5+dDbuX88Gh1Ov+nJ5UjKqBAPPUE9HI0KAsO6NWjwbqqp/QFFIjnuAGd/FpsJH5Z7+fgXuAufLGcn7JN2MHwn34d/xxwUamAAvEcN6DfHg6Gz2ZP9Lj3JvvzP59mm5DD0Ds588vxb72bLmcnmZyOqt7WJKBAPEfeAv1bvo2Yh+9BcT/nLKahtyKtvjRbYnEYIN8krZRjAQXiOfIx0GLyz3w79Leifw9mm5Fhm6Dlr7wsllUss9ImqIAC8Rw5oMXkn/MplC9nsbsMnU2kPBNz9udiY7Tq5KICCsRz5IAWW53z8s1jt2hfZRsBLf5cdXp7AQXiOfIx0OJsz/yI5bycwY/0mB8JKGQxFlCgYUc/C5/37WR20nzZ0cDrQEtz2S/OJ11WPCUloEA8R98Czaein5/qmZ2Gr9q8lXxi+wdrf/owWryy75sTUCCaIx8DvSxuO8o2OvNo5h+8/feHwVPSF9My3/zXszcvZnczfXtU+a4mAQXiOfatnFcv7v6x6OhiXvrSIzqr+ba6kzNfRt7lm++qvTkBBaKpaTKRD4+Kw59FAIdPd33GXpYT2xc3g357OHziXnigMTVPZ/dhPK4+hdKaj6fjX34Png5PQIF4TKgMEEhAAQLVG9D3o8HgXrXTPnEJKBBPrSeRzg87CR+BgALx1BPQ8+IypsW8ygc80WPT9bc1DXaI9q2B3qsloHk5s84VGZ1PDhqJgALNqSWgszvX83TePmA6u11MJgI0p46Azp/AMZ8+PnwykV2+Vnu8sYAC8dQR0Hkyz5c3YEYMaEUCCsRTY0BPBgdOZxeBgALx1BfQ+SHQyk/hiEpAgXhqOgY6eLZ8gubJoSeRJhcfz87Ofr8IqbCAAvHUdRb+5tt/mU1p97dB6FM5C59elC5Juve28psTUCCaWgKaT9w5GMyfL3fIBujVo42rOm9WvKtJQIF46rkTaXYP0q3PRUDvBx8BvSwWc2c883NxX2i1rVkBBeKp6V74yYfxL/n+9rf/Xn23eymv7/BV6YUPI4/0AJqT0nR251u5zJPqoXJAQxIK6Oxk/jqPNQaak1BAd12B7154oDl1BfTjr+OVX4JOIwko0C51noVfCruVcz4nyRq78EBzapsP9PCA5vcwbdRycXvo/m9OQIFo6roTaXD35cVS4ION8w7fKj9R6ep51QeECCgQT133wkeZQ7l4ptJw/PIs92Z2JX212e0FFIinptmYIj1I7v3GsYDB8GnFNyegQDQ1zgcaw+S0nNDhk6qn8wUUiKemXfiIUyhPPp2djsfjJ2dvAy6GElAgnrpOIh0wg11MAgrEU9d0ds09xWONgALx1HYh/fDJRezvFEBAgXhqOokU5UL6CAQUiEdAAQLVEtDHd9bdFVCgAxKazi4GAQXiEVCAQAIKEKi+gH49O/v983QSOBNTJAIKxFNXQN//PDv7/u3hzXc7P6EeAgrEU1NAXy8uX4o3M1MQAQXiqSeg+USeN//XKAtoPjdopYdwxCWgQDy1PdLjabbxmV9Av+vhxPURUCCeWgJ6UsxIPwto/hy4KNPTBxFQIJ6a5gPNj3vOA5ptjja3D19huP8A9Fb8ouy7xK1X5rPZzQPa6Nx2+w+36Z8f0KDoRdlXRwIK8CN24QEC1XUS6cEyoOdOIgHdUEtAL+fX0OcBzf7sMiagE2oJaH7t5/BVHtDJ3wYupAc6op47kdbmpHcrJ9ANNd0Ln2+DzplMBOiI2qazu3qRz8c0vPc29verRECBeEyoDBBIQIGk/ecx7Pm96wvo5NPZ2dlF7O9WkYBCCxyleVHtOZC6Avrh0fwc0t0mzyEJKETQdN02NPg3UU9ASyfhi5uSGiOgsNTP5kVVT0BP8hPw//ivZ//7Lw0XVEDpMP2rXV23cg7uz24/mrxu9Ep6ASU1OthmNc5Iv+uDugko7SGI6atpPtDSRqfp7OgFVeyDGidU3vlRzQSUiKSx92qaUFlASZQ8co1ajoGel6cA9VRO2kgjCVBLQL89GtxYXD+/vjlaNwFFJImnpgvpXwyGT4s/XT0yHyi1EUqOq5aTSI/v3MkvoP9p9p/hnZm7h22ITj79/mf1Nyeg3aWU1K6ms/C7BO3Jfzw7Kw4GXBX31g//WvXNCWhniCXNSyug70eD2TOVLkfzhVS8pFRA06WWtE9S84Gez6t5O0/ycDzO57ivdkZfQBOil7ReSgH9km123nz5Jtt5/8t8RpLzqs9IFtB2E0zSklJAT2Z77MXceLeXL1XaBBXQtlFMUlZfQL+eZQJOnC/l4Sw2Ny9XEzpVvbFeQFtBM+mIugL6/ufFU+Gfhi54eQ9o6WbQqveFCmhzJJPuqSmgr0tn3+8HzsUkoClSTbqsnoCeF4+EPzt782JU+cT5UrYLP9tzz/bb7cK3mmrSE7UEND99HmFG+sUZo5PVY0HOnURqEdmkb1Kakb54MsjFRZbgO6ttUZcxNU416a2a5gONMyP9yeL2o3/Pwnnv7OxF5VuRBDQi3aT3kpqRfjI7F5XVeHFPUtVFCWgMugkzSQV0Ov306527T/Jtzr/Pboa/V3FbVkAPIZywLqld+LWFfvx1/LLyZfkCGkQ5YaeUTiJFIKDVCCdcp5aA5qfPFzcgva86/0dUArov5YQfq+dC+vz0+c2XFxcX+VRKDW6ACugelBP2VdMzkZ6XbuWMcQQ0lIBeRzqhmpruhZ8sb4Yfht4Kv9P1p/R3zYMf8Zt3iHRCiPqms/v463g8/uX3uN9MQA8mnRAspQmVdzAb0yGkEw5TS0Bf33wV+7ssfL2odC2ogM5pJ0RQ/4X0jRLQaTmeTb8TSFz9t3I2qu8B1U6IqaYtUAFtnnhCbLUcA6067fH1Jhcf88fTXYRcDtXXgGonHEM9Z+Hfj/IbkWIs/dOL0iVJ995W/fI+BlQ84Vhq2YX/dfyXtWsxg3forx5tXNV5s+LJqd4FVDzhiGo6iTSIEtDLYhLQO+OZ4kHJw2oTk/QpoLY84dhqCejjO+vuhgU0D/GwfEXph1HVGPcmoOoJNUjpTqTzrVzmSX1QZRG9CKh2Qk0SCmg+pdPmDvtlxcmduh9Q9YT6JBTQXdfjuxd+jXhCrY4f0KsXo8HgpyeVH1+0RUCvp55Qt2MHdDkR6PCvhy541y31duHn1BMacOyAnqwuXqp0tmeXk61a5odFK93j1M2Aqic048gB/ZLtvt98dXHx4dHg8BmZ8oXdeld64ep51aV2MaDqCU05ckCXG42VLzja5bw4FjB+eZZ7M7uSvtpCOxdQ9YQGHTegpSuPokwo8n60cU/T8OmPv2jtzXUroPIJjTpuQLPtzsUudrb/HeFxnJPTckKHT6ousUsBVU9o2tEDurjKKNqsypNPZ6fj8fjJ2duAHncnoPIJzUsvoAfpSEDVE1pBQNMjn9ASApoY9YT2ENCkyCe0iYAmRD2hXQQ0GfIJbXP860Bn9w2dvRkt/3j2++EXhIa+uWQDKp/QPkcP6C7NbYqmGlD5hDYS0ATIJ7TTke+F/3i2i134KuQT2iqhR3rEkGBA5RNaS0DbTT6hxQS0zey9Q6sJaIvJJ7SbgLaWfELbCWhb6Se0noC2k3xCAgS0lfQTUiCgLSSfkAYBbR/9hEQIaNvIJyRDQFtGPyEdAtou8gkJEdA2sfkJSRHQFtFPSIuAtod8QmIEtDX0E1IjoG2hn5AcAW0FE39CigS0DfQTkiSgLaCekCYBbZ5+QqIEtHH6CakS0KbpJyRLQBumn5AuAW2WfkLCBLRR+gkpE9Am6SckTUAbpJ+QtoQCOvl49u7QZbQqoPoJiUsooN8eDgYPDlxGmwKqn5C6xAI6uP/5oGW0KKD6CclLLaCD4atDltGegOonpC+tgA7/kiX03gFHQtsU0KbfAXCotAJ644+/j7KN0PD9+NYEVD+hA1IL6PTqUb4ff//PsGW0JaB24KELkgvodHI6yo+F3g06FtqSgOondEJ6Ac0S+rpI6ODuy8rboe0IqH5CN6QY0OVWaOanu79UOSDaioDqJ3REmgHNfHoxT2jptR9rSUCbfgdAFMkGNPPp9HGKAdVP6IqUA5qbXFwktgtvBx46I/WAVtR8QPUTukNAa6af0B0JBXTy67jSGfddGg+ofkKHJBTQGJoOqB146BIBrZV+QpcIaJ30EzpFQGtkBx66JfGAXn9mfrBDjW9ui35CtwhoffQTOqbTAd3WZEDtwEPXJB7Q6deLSlPaNRvQ5r43cAypB7SiBgOqn9A5AloTO/DQPQJaE/2E7kkwoJOLj2dnZ79XmsZuobGA6id0UGoBXU5En7v3tuqXCygQT1oBLZ5pXHbzt2oLaCqg+gldlFRAL4tHyd0Zz/ycfzB8VmkJAgrEk1JAvz3Mgll+HPyHUcVHIjUVUP2ETkopoOdbucyT+qDKIpoJqEuYoJsSCujk+WCwucN+ORjcav9D5fQTuimhgO667z2Je+H1EzpKQI9PQKGjEgpotgs/3LxqKYVdeP2ErkoooNOTrVrmh0VvV1mEgALxpBTQL6OsoO9KL1xl/dzaKL1WAwHVT+islAKaX8eUFXP88iz3ZnYlfaWrmAQUiCipgE7fjzZu5Rw+rbaA+gOqn9BdaQV0OjktJ3T4pOqMTAIKxJNYQDOTT2en4/H4ydnbgPnsag+ofkKHpRfQgwgoEI+AHpV+QpcJ6FEJKHSZgB6TfkKnCegxCSh0moAek4BCpwnoEekndJuAHo+J6KHjBPRo9BO6TkCPRj+h6wT0WPQTOk9Aj0VAofME9FgEFDpPQI9EP6H7BPRIBBS6T0CPQz+hBwT0OAQUekBAj0NAoQcE9Cj0E/pAQI9CQKEPBPQoBBT6QECPQT+hFwT0GAQUekFAj0FAoRcE9Aj0E/pBQI9AQKEfBDQ+/YSeEND4BBR6QkDjE1DoCQGNTj+hLwQ0OgGFvhDQ6AQU+kJAoxNQ6AsBjU0/oTcENDYBhd4Q0NgEFHpDQCPTT+gPAY1MQKE/BDQyAYX+ENC49BN6JNmAfv149vZz5a8SUCCexAL66fGNP7L/TE5Hg9zNVxW/XkCBeJIK6OTFYJAHdPJ8sHC/2laogALxpBTQoptZQIv/Dsfjcb4ZervSIo4dUP2EPkkpoJdZL//b59l/H+QvTP6WhfS3KosQUCCelAJ6Mu/myWq786TiJqiAAvEkFNBvD2ebm4v/5r6MBreqHAU9ckD1E3olrYAWp+AX/51u/HkfAgrEk2BAJ88FFGiDhAKan3x/lv/hZLULfzmwCw80JaGATs9nV4HmBz7nZ47ypj6osojjBlQ/oV9SCmi2vz64+W5alHR2GdPrdl3GJKDQLykFdHqZXzl/9+XFxd+ykj5582I0qLgBKqBAREkFNN9531CtnwIKRJRWQJeziMy1azIR/YSeSSygma9vxo/vZO7+8rJl09kJKPRMegE9iIAC8QhoPAIKPSOg0egn9I2ARiOg0DeJB/T6e+E3r3nKHe+9CCj0jYBGI6DQN50O6LYjBlQ/oXcSD+j068WfVT5dQIF4Ug9oRQIKxCOgsQgo9I6ARqKf0D8JBnRy8fHs7Oz3i+p3wgsoEFNqAf30onRJ0r23Vb9cQIF40gro1aONqzpvVpqPXkCBmJIKaDEj/eDOeObn/IPhs0pLEFAgnpQCmj8TaVieQvnDaFDtOvrjBVQ/oYdSCuj5Vi7zpLbjqZwCCj2UUECXz4Uvac1z4QUUeiihgO66770198ILKPSQgMYhoNBDCQU024Ufbl611JZdeP2EPkoooNOTrVrmh0VvV1mEgALxpBTQL6OsoO9KL1xl/dzaKL2WgALxpBTQ/DqmrJjjl2e5N7Mr6StdxSSgQERJBXT6frRxK+fwaUHqu6IAAA9BSURBVLUFCCgQT1oBnU5OywkdPqk6I9ORAqqf0EuJBTQz+XR2Oh6Pn5y9DZjPTkCBeNIL6EEEFIhHQGMQUOglAY1BQKGXBDQC/YR+EtAIBBT6SUAjEFDoJwGNQEChnwQ0AgGFfhLQw+kn9JSAHk5AoacE9HACCj0loIcTUOgpAT2cgEJPCejhBBR6SkAPpp/QVwJ6MAGFvhLQgwko9JWAHkxAoa8E9GACCn0loAcTUOgrAT2UfkJvCeihBBR6S0APJaDQWwJ6KAGF3hLQQwko9JaAHkpAobcE9ED6Cf0loAcSUOgvAT2QgEJ/CeiBBBT6S0APJKDQXwJ6IAGF/hLQAwko9JeAHkY/occE9DACCj0moIcRUOgxAT2MgEKPCehhBBR6TEAPI6DQY6kGdPLx7Pc/q3+ZgALxpBTQrxeLZH54NMgN73+uuIjYw9VP6LOEAvrt4eDGH/kfJq8HC8Nn1ZYhoEA8KQb0JC/nP47Hj/OEViuogALxJBjQyyybs333q+eDeVP3JaBAPAkGNNsAvT1/aZIV9EGVZQgoEE96Ac2judxvz7ZGb1U5kSSgQDzpBXR5KLT02t4EFIhHQA+hn9Br6QV0ejIY/rZ47ctIQIGmJBbQvJyXpRNHDR8DFVDotbQCmvnpn97+y3ITNH+pybPwAgq9llxAZ4r99snfRw1fByqg0GsJBTQr5qfTx6NVQPOirg6H7kVAgXiSCmihqOgioDffVftiAQXiSS+gK5P/UzGfAgrElHJAA8Qdrn5CvwnoAQQU+k1ADyCg0G8CegABhX5LPKDX3ws/2CHmdxdQ6DcBPYCAQr91OqDbBBSIJ/GAlp7UuRcBBeJJPaAVRR2ufkLPCWg4AYWeE9BwAgo9l2BAJxcfz87Ofr+oMpHygoAC8aQW0E8vSpck3Xtb9csFFIgnrYBePdq4qvNmtelABRSIKKmAXhazKd8Zz/ycfzB89uMvKxFQIJ6UAlrMQP+q9MKHZh/pIaDQcykF9Hwrl80+VE5AoecSCujk+WCwucNe/bHG8fznf8ZcGpCimI0rGhV7gQu77nuvfi98PAIKxGxc0ajYC1yIEdC9xf97aVCXBtOlsRhMazU4mGPuwm89xLjqLvze/Da0VJfGYjCt1cWATk+2apkfFr19lO/lt6GlujQWg2mtTgb0yygraPlJxldZP7c2SuPw29BSXRqLwbRWJwOaX8eUFXP88iz3ZnYlfaWrmPbnt6GlujQWg2mtbgZ0+n60cQZs+PRI38lvQ0t1aSwG01odDeh0clpO6PDJUU4g5fw2tFSXxmIwrdXVgGYmn85Ox+Pxk7O3R6vn1G9Da3VpLAbTWh0OaD38NrRUl8ZiMK0loAfy29BSXRqLwbSWgB7Ib0NLdWksBtNaAnogvw0t1aWxGExrCeiB/Da0VJfGYjCtJaAH8tvQUl0ai8G0loAeyG9DS3VpLAbTWgJ6IL8NLdWlsRhMawnogfw2tFSXxmIwrSWgB/Lb0FJdGovBtJaAHshvQ0t1aSwG01oCCpAeAQUIJKAAgQQUIJCAAgQSUIBAAgoQSEABAgkoQCABBQgkoACBBBQgkIACBBJQgEACChBIQAECCShAIAEFCCSgAIEEFCCQgAIEElCAQAIKEEhAAQIJKEAgAQUIJKAAgToQ0KsXo8FgeO9d0+9jb5PTO4PB4KfyO94ewz6vtMaX0eDZ8oOExzJ5n/9k7jz9vHwl4cF8Cnrr7RvMt4c3/lh9FDaG440q/YC+z/5qcsO/Nv1O9rR4w4PB/c2XVmPY55XW+PZwsApowmP5svjJ3FyssekOZvJ68Vv2YPFSmoOZPB+UAho2hiOOKvmAXg6Wnv34s1ug9IYHt7deerb/K+1xUnpTCY9l2c/B4NZsGzThwZys3ta8oGkOZpINZBXQsDEcc1SpBzTf+LmZbZl/elT+e26x4g2/nc7e8fC35UtrY9jnlfa4LP1mJjyW/G0Nn+ZHWEbz6CQ8mPwfg3yP9ep52r9l2fZn6a2EjeGoo0o9oOeLrYX8b/rBjz67BS6X2535Oy7+uD2GfV5pjfz3cxnQhMdyvly9LudvMO3BzH/NTiq89dYN5kOxU7CsXtgYjjqqxAOa/ZXM/n0t/s299fn6z26Dk9VuxPwdb49hn1daIz9G9T8Wg0p4LKW3Nf9jwoPJfs0Wb2v+L3aKg7nKNhkH9x4tAxo2huOOKvGAZls/i7+R0t9TIuZvfnsM+7zSGtm/78/OFwFNeCzZynV7/ZWEB7Md0BQHc54fUymdRAobw3FHlXhAVzvEa9t2aZj/ZLfHsM8rbZF158F0GdCEx3K5tXuX8GDWd+Hzd5XiYM6H9z+Xz8KHjeG4o0o/oMvf+vMW/Mgrmf9kt8ewzystkf16Z/8IlAOa6liKt1JcL/jT09krCQ+mODBdnER6MT8AmOJgvuZvfD2gAWM47qgSD2j5L2R7E6Ldst/xYn9iewz7vNISs13F5dtLeCz5SM7nF7vMrgNNeDDz44ddGEwpoGFjOO6oBLQp+QVui5Pwaf5qT5fvpSMB/cvycsFilU14MNPZBUy5e7Pjf8kORkCPqZU/8r2sLhBu/pcg2OL4fAcCWlxwWOz1fs3v4cn/aUt3MNPijc0Nn84/TnMwAnpMrfyR72OyvMC5Bb8EwU42/w1IdyxFQFf37KwdmJimNphZP+//Of/X4Nk04cEI6DG18ke+h6vlbUht+CUItd3NdMeSn6BdXiM4O1mb8GBKsxO8n+3pJDsYAT2mtp033FM+ucFywormzyQGWl052YWz8CeltzV7iwkPZufFPGkOxln4YzruNV7HUuxfLe+IaP5atkCrw2wzDxIeSzGa7YAmPJhnpT+nPBjXgR5T2+6d2MvrwdqORPN3UwTaEdBkx7K+np2nPpjt3dZkB+NOpGNq2927+zgfrP8Um7+fN9COgCY7luK9LCetmG2oJDyY7a2uZAdTCqh74eM7b9v8MT+U/W7fWJ8Ze3sM+7zSJqsNnoTHkl+XO1u73q8uBE10MPlsdvOfyPySgmQHU55QOWwMRx1V6gFdTK/ZnhkMf2Bx/9H6Sxtj2OeVNlkFNOGx5NHJ39bX5SGWhAdzUr6MqdgYTXUw5YCGjeGoo0o9oPk/sAvtOOj9A+v7vbOWbo9hn1dapHTILeGxlH40yc9IP5ukdebmcpbTFAez9kiPsDEcc1TJB3T699Y9xeU6sxteluYbo9tj2OeV9iifs0h4LIu3tbj9MeXBrH7RbqU9mLWABo7hiKNKP6AtfI7gNcpbBquAJvq8xKW1y+sSHsvX05+zt3X37eqVhAfz6XHxtlIfzHpAPZUToCsEFCCQgAIEElCAQAIKEEhAAQIJKEAgAQUIJKAAgQQUIJCAAgQSUIBAAgoQSEABAgkoQCABBQgkoACBBBQgkIACBBJQgEACChBIQAECCShAIAEFCCSgAIEEFCCQgAIEElCAQAIKEEhAAQIJKEAgAQUIJKAAgQQUIJCAAgQSUIBAAgoQSEABAgkoQCABBQgkoACBBBQgkIACBBJQgEACChBIQAECCShAIAEFCCSgAIEEFCCQgAIEElCAQAIKEEhAAQIJKA04H5Tc+eVdwCK+PRzc+rzPd7o9nU6eD278sc9Cs098FvBe6C0BpQFrAc3cr76I/QL6ZZSXc++Azj8f9iSgNGAzoIMHlRexV0DnW5T7BzR7Z/ts18KMgNKA81Iyv74fDfbu28peAa2ew2yx1WNObwkoDThf2+a8ehiwCbpPQL+Mqh/SPA+IOb0loDRgPaD5h7erLmKfgJ4E7I/bBKUCAaUBGwG9XAZ08v7OYDC4+2rWveLY5eT058FgeG95pv7qRfbh/c+rgH49zb9mePfV5nfJNkAfrJbzncVN3q9/bBOUCgSUBmwE9GQR0Cx5MzeLoOXF+7+Ll54tvzR36z8WAV2dkNrc3DwfDH+bLpbzx+7FfXk0+3C43NdfZhd+SEBpwHpA82w+WPxhrtgKzIq3MovhMpf/ZR7Q8gn99fCttlFXAd1cXPY5ax9P977AFKYCSiPKAb04XZyFz2t281W+Vz2abZIWxRs+/TydvJ7nsfiUbOs0/4yic/kL9//M/s+nR5uboKtNyXJA1xaXb/sOn06nV49KR2FPVjGF6wkoDdi6DrTYgb5cJjDLYh6xvHjzA5Lz80zni0/JN1bzP60On2avrB+8PF/up5cCur64+fcp/WHt6+AHBJQGbAQ03wicrm36XRZbiHnx5huRWR6zXmYvLD7lfHODM2vgekBXiysFdG1xpfyWqnkZcl0//SSgNGD9Xvgny83OZRKzwM3uYV80cFa8UiTnCZz7+vHXzcvxS7cfrQK6vrjdG5uz7w17EFAasDgGOjkdDX56On9xdUJncU59V0AX1Vz+cfLh8eLcU+WA7jzcKaDsTUBpwHl5X3oxlUjpHPz3Alra7FwEtPxV0QLqNDz7EVAaUDoLf7m8/Gg7XHtsgc42W3+6+8vL/3hoC5S6CSgNKF/GdL44Cb91FmifY6Dni4vut77cMVCOT0BpQDmgy4uL8j+s52yreKVPOd/cyb/cnNNp11n4jYCuXQS1qKaz8OxNQGnA2p1IX+aXzeev3nhX/oSdm4yzffh8130toPmUTj++DnRjcdl/5q+crN6R60DZm4DSgPVbORc78XkU8xuFpl9fDxYX0m8Ur7gT6e10+mFxJ9LJbBc+P50/2DiguetOpI3FLe5Eym9NWtbXnUjsTUBpwHpAlzvxlxv3te8o3vJT/uvDxU745v3tC7vuhd9cXOnSqQdbXwY/IqA0YGM2puVO/OVoLWc7ije7C740G9PrRTyfbB1C3TEb09birh5t9NMhUCoQUBqwEdDVmfhJMbfnT0/+LF7eVbzp1YvR2nygHx4XX/G5dEZouvyazflAtxdXzAc6uLuaD/TEfKDsTUDpLjPSc2QCSnd5JhJHJqB0mKdyclwCSodlOay4Ceq58FQhoHTZl1G1HfIvI9eAUoGA0mnnle5rnzx3ExJVCChAIAEFCCSgAIEEFCCQgAIEElCAQAIKEEhAAQIJKEAgAQUIJKAAgQQUIJCAAgQSUIBAAgoQSEABAgkoQCABBQgkoACBBBQgkIACBBJQgEACChBIQAECCShAIAEFCCSgAIEEFCCQgAIEElCAQAIKEEhAAQIJKEAgAQUIJKAAgQQUIJCAAgQSUIBAAgoQSEABAgkoQCABBQgkoACB/j8ozy6pWwoRXQAAAABJRU5ErkJggg==" width="672" /></p>
+<ol start="6" style="list-style-type: decimal">
+<li>Usando dados de casas vendidas em 1988 em Andover, Massachusetts
+[Kiel e Mc-Clain (1995)], a equação seguinte relaciona os preços das
+casas (price) à distância de um incinerador de lixo recentemente
+construído (dist): <span class="math display">\[
+\hat{log(price)}= 9,40 + 0,312 log(dist) \\ n = 135, R^2 = 0,162.
+\]</span></li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li>Interprete o coeficiente de log(dist). O sinal dessa estimativa é o
+que você esperava?</li>
+</ol>
+<p>R: O aumento de um ponto percentual em relação a distância de um
+incinerador de lixo recentemente construído (dist) de uma casa aumenta
+em 31,2% em seu preço</p>
+<ol start="2" style="list-style-type: lower-roman">
+<li>Você considera que a regressão simples oferece um estimador não
+viesado da elasti-cidade ceteris paribus de preço (price) em relação à
+distância (dist)? (Pense sobre a decisão da cidade em instalar o
+incinerador naquele local.)</li>
+</ol>
+<p>R: A estimação fornece um estimador viesado é mais provável que o
+incinerador diminua o valor das casas devido as insatisfações geradas
+por ele, como, poluição, e entre outros.</p>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Quais outros fatores relativos a casas afetam seu preço? Eles
+poderiam estar correlacionados com a distância do incinerador?</li>
+</ol>
+<p>R: Fatores como proximidades de zonas urbanas, comércios, mercado de
+trabalho aquecido e custo de vida do local estão correlacionados com o
+preço do imóvel.</p>
+<ol start="7" style="list-style-type: decimal">
+<li>Considere a função de poupança <span class="math display">\[sav =
+\beta_0 + \beta_1inc + u, u = \sqrt{inc}*e,\]</span> em que e é uma
+variável aleatória com E(e) = 0 e Var(e) = s2 dente de inc.</li>
+</ol>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>Considere e independente de inc.</li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li>Mostre que E(u|inc) = 0, de modo que a hipótese de média condicional
+zero (Hi-pótese RLS.4) seja satisfeita. [Dica: se e é independente de
+inc, então E(e|inc) = E(e).]</li>
+</ol>
+<p>R: <span class="math display">\[
+E(u|inc) = E(\sqrt{inc}*e|inc), u = \sqrt{inc}*e \\
+E(\sqrt{inc}*e|inc)=\sqrt{inc}* E(e|inc),\ \ E(e∣inc)=E(e)\\
+E(u|inc)=\sqrt{inc}*E(e)=\sqrt{inc}*0=0
+\]</span> (ii) Mostre que <span class="math inline">\(Var(u|inc)=
+\sigma^2_e inc\)</span>, de modo que a hipótese de homoscedasticidade
+RLS.5 é violada. Em particular, a variância de sav aumenta com inc.
+[Dica: Var(e/inc) = Var(e), se e e inc forem independentes.]</p>
+<p>R: Ver sobre em Hipótese RLS.5 no livro <span class="math display">\[
+Var(u|x) = E(u^2|x)-[E(u|x)]^2,\ \ E(u|x)=0\\
+Var(u|x) = E(u^2|x), \ \ E(u^2|x)=\sigma^2 \\
+Var(u|x) = E((\sqrt{inc}+e)^2|x) \\
+Var(u|x) = inc * E(e^2|x) \\
+Var(u|x) = inc * \sigma^2_e
+\]</span></p>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Faça uma discussão que sustente a hipótese de que a variância da
+poupança au-menta com a renda da família.</li>
+</ol>
+<p>R: A a poupança da família aumenta com a renda, pois pessoas com
+maiores rendas conseguem manter uma padrão de qualidade de vida ideal
+com um percentual menor de seus rendimentos, dessa forma, gastando menos
+e poupando mais.</p>
+<ol start="8" style="list-style-type: decimal">
+<li>Considere o modelo de regressão simples padrão <span class="math inline">\(y = \beta_0 + \beta_1x+u\)</span> sob as hipóteses
+de Gauss-Markov RLS.1 a RLS.5. Os estimadores usuais <span class="math inline">\(\hat{\beta_0}\)</span> e <span class="math inline">\(\hat{\beta_1}\)</span> são não viesados para seus
+respectivos parâmetros populacionais. Seja <span class="math inline">\(\widetilde{\beta_1}\)</span> o estimador de <span class="math inline">\(\beta1\)</span> obtido ao assumir que o intercepto
+é zero (veja a Seção 2.6).</li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li>Encontre E(b) em termos de <span class="math inline">\(x_i\)</span>,
+<span class="math inline">\(b_0\)</span> e <span class="math inline">\(b_1\)</span>. Verifique que <span class="math inline">\(\widetilde{\beta_1}\)</span> é não viesado para
+<span class="math inline">\(\beta_1\)</span> quando o intercepto
+populacional (<span class="math inline">\(\beta_0\)</span>) é zero. Há
+outros casos em que <span class="math inline">\(\widetilde{\beta_1}\)</span> é não viesado?</li>
+<li>Encontre a variância de <span class="math inline">\(\widetilde{\beta_1}\)</span></li>
+<li>Mostre que <span class="math inline">\(Var(\widetilde{\beta_1})\le\hat{\beta_1}\)</span></li>
+</ol>
+<ol start="9" style="list-style-type: decimal">
+<li><ol style="list-style-type: lower-roman">
+<li>Sejam bˆ 0 e bˆ 1 o intercepto e a inclinação da regressão de yi
+sobre xi, usando n ob-servações. Sejam c1 e c2 constantes, com c2 2 0.
+Sejam b 1 5 (c1/c2) bˆ 0 e b ~ verificando as observações sobre as
+unidades de medida da Seção 2.4. [Dica: para obter b 1, insira as
+transformações de x e y em (2.19). Em seguida, use (2.17) para 0,
+estando seguro de usar as transformações de x e y e a inclinação
+correta.] (sem nenhuma restrição sobre c1 ou c2). Mostre que b ~ 1 bˆ
+0.</li>
+</ol></li>
+</ol>
+<ol start="4" style="list-style-type: lower-roman">
+<li>Agora, assumindo que xi . 0 para todo i, sejam b ~ ção da regressão
+de yi sobre log(c2xi). Como b ~ 0 e b ~ 0 e b ~ cepto e a inclinação da
+regressão de yi sobre log(xi)?</li>
+</ol>
+<ol start="10" style="list-style-type: decimal">
+<li>Sejam bˆ 0 e bˆ 1 os estimadores MQO do intercepto e da inclinação,
+respectivamente, e que u–seja a média amostral dos erros (não os
+resíduos!). (i) Demonstre que bˆ 1 pode ser escrita como b^ 5 b1 1 gn e
+di 5 xi 2 x–. i51wiui, em que wi 5 di/SQTx (ii) Use o item (i),
+juntamente com gn i51wi 5 0, para demonstrar que bˆ 1 e u–são não
+correlacionadas. [Dica: Você está sendo solicitado a demonstrar que E[bˆ
+2 b1) ? u–] 5 0.].</li>
+</ol>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Demonstre que bˆ 0 pode ser escrito da seguinte forma bˆ 0 5 b0 1
+u–2 (bˆ 1 2 b1)x–. (iv) Use os itens (ii) e (iii) para provar que Var(bˆ
+0) 5 s2/n 1 s2(x–)2/SQTx. (v) Faça os cálculos para simplificar a
+expressão no item (iv) para a equação (2.58). [Dica: SQTx /n 5 n21gn
+i51x2 i 2 (x–)2.]</li>
+</ol>
+<ol start="11" style="list-style-type: decimal">
+<li>Suponha que você esteja interessado em estimar o efeito das horas
+gastas com um curso de preparação para o vestibular (hours) no total das
+notas do vestibular (sat). A população são todos os pré-universitários
+graduados no ensino médio em determinado ano. (i) Suponha que lhe tenha
+sido dada uma subvenção para executar um experimento controlado.
+Explique como você estruturaria o experimento para estimar o efeito
+causal de horas (hours) no vestibular (sat).</li>
+</ol>
+<ol start="2" style="list-style-type: lower-roman">
+<li>Considere o caso mais realístico em que os alunos decidem quanto
+tempo gasta-rão com um curso de preparação, e você só pode fazer
+amostragens aleatórias de sat e hours da população. Escreva o modelo
+populacional da seguinte forma sat 5 b0 1 b1hours 5 u em que, como
+sempre, num modelo com um intercepto, podemos assumir E(u) 5 0. Liste
+pelo menos dois fatores contidos em u. Existe a probabilidade de eles
+terem correlação negativa ou positiva com as horas gastas (hours)?</li>
+</ol>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Na equação do item (ii), qual deve ser o sinal de b1 se o curso de
+preparação for eficaz?</li>
+<li>Na equação do item (ii), qual é a interpretação de b0?</li>
+</ol>
+<ol start="12" style="list-style-type: decimal">
+<li><dl>
+<dt>Considere o problema descrito no fim da Seção 2.6: rodar uma
+regressão e estimar somente um intercepto. (i) Dada a amostra {yi: i 5
+1, 2, . . . , n}, deixe b</dt>
+<dd>
+ser a solução para mín b0 Mostre que b ~ a n i51 5 y–, isto é, a média
+amostral minimiza a soma dos quadrados dos resíduos. (Dica: você pode
+usar cálculos de uma variável ou mostrar o resultado diretamente ao
+adicionar ou subtrair y–dentro do quadrado dos resíduos e, assim, usar
+um pouco de álgebra.) (ii) Defina os resíduos como u~ duos sempre somam
+zero. i 5 yi 2 y–. Dê argumentos justificando que estes resí-
+</dd>
+</dl></li>
 </ol>
 </div>
 

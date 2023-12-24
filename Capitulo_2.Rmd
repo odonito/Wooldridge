@@ -17,14 +17,230 @@ library(dplyr)
 library(sampleSelection)
 library(texreg)
 library(MASS)
+library(knitr)
 ```
 # Problemas
 1. Seja kids o número de filhos de uma mulher, e educ os anos de educação da mulher. Um modelo simples que relaciona a fertilidade a anos de educação é
 $$kids =\beta_0 + \beta_1educ + u,$$
 em que u é um erro não observável.
 i) Que tipos de fatores estão contidos em u? É provável que eles estejam correlacio-nados com o nível de educação?
+
 R: A renda é um dos fatores contidos em u e está correlacionado com educação dado que pessoas com maiores rendas tendem a se educar mais.
+
 (ii) Uma análise de regressão simples mostrará o efeito ceteris paribus da educação sobre a fertilidade? Explique
+
 R: Não, visto que os outros fatores não estarão sendo controlados sendo mantidos em u
 
-2.
+2. No modelo de regressão linear simples $y = \beta_0 + \beta_1x + u$, suponha que $E(u) \neq 0$. Fazendo $\alpha_0 = E(u)$, mostre que o modelo pode sempre ser reescrito com a mesma inclinação, mas com um novo intercepto e erro, em que o novo erro tem um valor esperado zero.
+
+R: 
+$$
+y = \beta_0 + \beta_1x + u \\
+y = \beta_0 + \beta_1x + \alpha_0 \\
+y = \bar{y}-\hat{\beta_1}\bar{x} + \beta_1x + \alpha_0
+$$
+3. A tabela seguinte contém as variáveis GPA (nota média em curso superior nos Estados Unidos) e ACT (nota do teste de avaliação de conhecimentos para ingresso em curso superior nos Estados Unidos) com as notas hipotéticas de oito estudantes de curso su-perior. GPA está baseado em uma escala de quatro pontos e foi arredondado para um dígito após o ponto decimal.
+
+R:
+```{r echo=FALSE}
+estudantes <- data.frame(
+    Estudante = c("1", "2", "3", "4", "5", "6", "7", "8"),
+    GPA = c(2.8, 3.4, 3.0, 3.5, 3.6, 3.0, 2.7, 3.7),
+    ACT = c(21, 24, 26, 27, 29, 25, 25, 30)
+)
+print(estudantes)
+```
+(i) Estime a relação entre GPA e ACT usando MQO; isto é, obtenha as estimativas de intercepto e de inclinação da equação $$\hat{GPA}=\hat{\beta_0} +\hat{\beta_1}ACT$$. Comente a direção da relação. O intercepto tem uma interpretação útil aqui? Explique. Qual deveria ser o valor previsto do GPA se a nota ACT aumentasse em cinco pontos? 
+
+R: 
+```{r echo=FALSE}
+mqo_gpa_act <- lm(GPA ~ ACT, data = estudantes)
+summary(mqo_gpa_act)
+```
+A direção da relação é positiva, ou seja, quanto maior a nota do teste de avaliação de conhecimentos para ingresso em curso superior nos EUA (ACT) maior será sua nota média no curso superior nos EUA (GPA). A interpretação do intercepto seria do GPA de um aluno caso ele tirasse 0 no vestibular dos EUA. No entanto, não existe observação com valor zero e possivelmente alguém que zerou esse teste não teria sido aprovado na faculdade. Logo, o intercepto não traz muita informação.
+Para um aumento de 5 pontos em ACT o valor do GPA deve aumentar em 0,511 pontos somados ao intercepto de 0,568 resultaria em um GPA de 1,079.
+
+
+(ii) Calcule os valores estimados e os resíduos de cada observação e verifique que a soma dos resíduos é (aproximadamente) zero. 
+
+R:
+```{r echo=FALSE}
+# Valores estimados
+gpa_estimado <- predict(mqo_gpa_act)
+
+# Resíduos
+residuos <- residuals(mqo_gpa_act)
+
+# Soma dos resíduos
+soma_residuos <- sum(residuos)
+
+# Criando a tabela com estudantes, GPA, valores estimados e resíduos
+tabela <- data.frame(
+    Estudante = estudantes$Estudante,
+    GPA = estudantes$GPA,
+    GPA_Esimado = gpa_estimado,
+    Residuos = residuos
+)
+print(soma_residuos)
+print(tabela)
+```
+Os valores dos resíduos tendem a zero como afirmado na questão.
+
+(iii) Qual é o valor previsto do GPA quando ACT = 20?
+
+R: O valor previsto do GPA será
+$$
+GPA = 0,56813 + 0,10220 * 20
+GPA = 0,56813 + 2,044
+GPA = 2,61213
+$$
+O GPA estimado para alguém que pontuou 20 pontos no vestibular é 2,61213.
+
+(iv) Quanto da variação do GPA dos 8 estudantes é explicado pela ACT? Explique.
+
+R: Os estudantes mais próximos da linha de regressão são os estudantes 1, 5 e 8.
+
+4. Os dados do arquivo BWGHT contêm informações de nascimentos por mulheres nos Estados Unidos. As duas variáveis de interesse são: a variável dependente, peso dos recém-nascidos em onças (bwght), e a variável explicativa, número médio de cigarros que a mãe fumou por dia durante a gravidez (cigs). A seguinte regressão simples foi estimada usando dados de n = 1.388 nascimentos:
+$$
+\hat{bwght}=119,77 - 0,514cigs
+$$
+(i) Qual é o peso de nascimento previsto quando cigs 5 0? E quando cigs 5 20 (um maço por dia)? Comente a diferença.
+
+R: Quando o número médios de cigarros que a mãe fumou por dia durante a gravidez é zero tem-se o peso do recém nascido será 119,77 onças.
+
+(ii) O modelo de regressão simples necessariamente captura uma relação causal entre o peso de nascimento da criança e os hábitos de fumar da mãe? Explique.
+
+R: Não, o modelo de regressão linear não captura correlação entre as variáveis dependentes e independentes apenas demonstra a correlação entre elas.
+
+(iii) Para prever um peso de nascimento de 125 onças, qual deveria ser a magnitude de cigs? Comente.
+
+R: Segundo a estimativa, para um bebê ter 125 onças precisaria que a mãe tivesse um "crédito" de 10,47 cigarros, o que não seria possível na vida real o modelo não serve para capturar o peso de bebês com mais de 125 onças tendo seu peso máximo atrelado ao intercepto quando a mãe não fuma.
+$$
+      \hat{bwght}=119,77 - 0,514cigs \\
+      125=119,77 - 0,514cigs \\
+      125- 119,77=-0,514cigs \\
+      5,23=-0,514cigs \\
+      cigs=-10,17 \\
+$$
+
+
+(iv) A proporção de mulheres que não fumou durante a gravidez na amostra é cerca de 0,85. Isso ajuda a reconciliar sua conclusão do item (iii)?
+
+R: Dado que 85% das mães não fumaram o intercepto deve capturar bem o peso médio de um bebê vindo de uma mãe não fumante no qual o intercepto captura o filho de mães fumantes devido a seu peso menor.
+
+5. Na função de consumo linear cons $$\hat{cons}=\hat{\beta_0} + \hat{\beta_1}inc,$$
+a MPC – propensão marginal a consumir (estimada) é simplesmente a inclinação $\hat{\beta_1}$, ao passo que a APC – propensão média a consumir é $\hat{cons}/inc = \hat{\beta_0}/inc +\hat{\beta_1}$. Usando as observações de renda e consumo anuais de 100 famílias (ambas medidas em dóla-res), obteve-se a seguinte equação:
+$$\hat{cons}=-124,84 + 0,853inc\\ n=100, R^2=0,692$$,
+(i) Interprete o intercepto dessa equação e comente seu sinal e magnitude. 
+
+R: O consumo seria de -124,84 dólares dado uma renda zero de consumir, o sinal negativo não tem interpretação real pois o indivíduo não consumiria negativo caso sua renda fosse nula.
+
+(ii) Qual é o consumo previsto quando a renda familiar é US$ 30.000? 
+
+R: O consumo familiar previsto para uma renda familiar de 30mil dólares é 
+$$
+\hat{cons}=-124,84 + 0,853*30000 \\
+\hat{cons}=25714.84
+$$
+
+(iii) Com inc sobre o eixo de x, desenhe um gráfico da MPC e da APC estimadas.
+
+R:
+```{r}
+# Criando um intervalo de valores para inc
+inc <- seq(0, 10000, by = 10)  # Mudar o intervalo conforme necessário
+
+# Calculando os valores de MPC e APC
+cons <- -124.84 + 0.853 * inc
+MPC <- rep(0.853, length(inc))  # Repetir o valor do coeficiente beta1
+APC <- (-124.84 / inc) + 0.853
+
+# Plotando o gráfico
+plot(inc, MPC, type = "l", col = "blue", xlab = "Renda (inc)", ylab = "Propensão")
+lines(inc, APC, col = "red")
+legend("topright", legend = c("MPC", "APC"), col = c("blue", "red"), lty = 1)
+
+```
+
+
+6. Usando dados de casas vendidas em 1988 em Andover, Massachusetts [Kiel e Mc-Clain (1995)], a equação seguinte relaciona os preços das casas (price) à distância de um incinerador de lixo recentemente construído (dist):
+$$
+\hat{log(price)}= 9,40 + 0,312 log(dist) \\ n = 135, R^2 = 0,162.
+$$
+(i) Interprete o coeficiente de log(dist). O sinal dessa estimativa é o que você esperava?
+
+R: O aumento de um ponto percentual em relação a distância de um incinerador de lixo recentemente construído (dist) de uma casa aumenta em 31,2% em seu preço
+
+(ii) Você considera que a regressão simples oferece um estimador não viesado da elasti-cidade ceteris paribus de preço (price) em relação à distância (dist)? (Pense sobre a decisão da cidade em instalar o incinerador naquele local.)
+
+R: A estimação fornece um estimador viesado é mais provável que o incinerador diminua o valor das casas devido as insatisfações geradas por ele, como, poluição, e entre outros.
+
+(iii) Quais outros fatores relativos a casas afetam seu preço? Eles poderiam estar correlacionados com a distância do incinerador?
+
+R: Fatores como proximidades de zonas urbanas, comércios, mercado de trabalho aquecido e custo de vida do local estão correlacionados com o preço do imóvel.
+
+7. Considere a função de poupança $$sav = \beta_0 + \beta_1inc + u, u = \sqrt{inc}*e,$$
+em que e é uma variável aleatória com E(e) = 0 e Var(e) = s2 dente de inc.
+e. Considere e independente de inc.
+(i) Mostre que E(u|inc) = 0, de modo que a hipótese de média condicional zero (Hi-pótese RLS.4) seja satisfeita. [Dica: se e é independente de inc, então E(e|inc) = E(e).]
+
+R: 
+$$
+E(u|inc) = E(\sqrt{inc}*e|inc), u = \sqrt{inc}*e \\
+E(\sqrt{inc}*e|inc)=\sqrt{inc}* E(e|inc),\ \ E(e∣inc)=E(e)\\
+E(u|inc)=\sqrt{inc}*E(e)=\sqrt{inc}*0=0
+$$
+(ii) Mostre que $Var(u|inc)= \sigma^2_e inc$, de modo que a hipótese de homoscedasticidade RLS.5 é violada. Em particular, a variância de sav aumenta com inc. [Dica: Var(e/inc) = Var(e), se e e inc forem independentes.]
+
+R: Ver sobre em Hipótese RLS.5 no livro
+$$
+Var(u|x) = E(u^2|x)-[E(u|x)]^2,\ \ E(u|x)=0\\
+Var(u|x) = E(u^2|x), \ \ E(u^2|x)=\sigma^2 \\
+Var(u|x) = E((\sqrt{inc}+e)^2|x) \\
+Var(u|x) = inc * E(e^2|x) \\
+Var(u|x) = inc * \sigma^2_e
+$$
+
+(iii) Faça uma discussão que sustente a hipótese de que a variância da poupança au-menta com a renda da família.
+
+R: A a poupança da família aumenta com a renda, pois pessoas com maiores rendas conseguem manter uma padrão de qualidade de vida ideal com um percentual menor de seus rendimentos, dessa forma, gastando menos e poupando mais.
+
+8. Considere o modelo de regressão simples padrão $y = \beta_0 + \beta_1x+u$ sob as hipóteses de Gauss-Markov RLS.1 a RLS.5. Os estimadores usuais $\hat{\beta_0}$ e $\hat{\beta_1}$ são não viesados para seus respectivos parâmetros populacionais. Seja $\widetilde{\beta_1}$ o estimador de $\beta1$ obtido ao assumir que o intercepto é zero (veja a Seção 2.6). 
+(i) Encontre E(b) em termos de $x_i$, $b_0$ e $b_1$. Verifique que $\widetilde{\beta_1}$ é não viesado para $\beta_1$ quando o intercepto populacional ($\beta_0$) é zero. Há outros casos em que $\widetilde{\beta_1}$ é não viesado?
+(ii) Encontre a variância de $\widetilde{\beta_1}$
+(iii) Mostre que $Var(\widetilde{\beta_1})\le\hat{\beta_1}$ 
+
+
+
+
+9. (i) Sejam bˆ 0 e bˆ 1 o intercepto e a inclinação da regressão de yi sobre xi, usando n ob-servações. Sejam c1 e c2 constantes, com c2 2 0. Sejam b
+1 5 (c1/c2) bˆ 0 e b ~
+verificando as observações sobre as unidades de medida da Seção 2.4. [Dica: para obter b
+1, insira as transformações de x e y em (2.19). Em seguida, use (2.17) para 0, estando seguro de usar as transformações de x e y e a inclinação correta.]
+(sem nenhuma restrição sobre c1 ou c2). Mostre que b ~
+1 bˆ 0.
+(iv) Agora, assumindo que xi . 0 para todo i, sejam b ~
+ção da regressão de yi sobre log(c2xi). Como b ~
+0 e b ~
+0 e b ~
+cepto e a inclinação da regressão de yi sobre log(xi)?
+10. Sejam bˆ 0 e bˆ 1 os estimadores MQO do intercepto e da inclinação, respectivamente, e que u–seja a média amostral dos erros (não os resíduos!). (i) Demonstre que bˆ 1 pode ser escrita como b^ 5 b1 1 gn e di 5 xi 2 x–.
+i51wiui, em que wi 5 di/SQTx (ii) Use o item (i), juntamente com gn i51wi 5 0, para demonstrar que bˆ 1 e u–são não
+correlacionadas. [Dica: Você está sendo solicitado a demonstrar que E[bˆ 2 b1) ? u–] 5 0.].
+(iii) Demonstre que bˆ 0 pode ser escrito da seguinte forma bˆ 0 5 b0 1 u–2 (bˆ 1 2 b1)x–. (iv) Use os itens (ii) e (iii) para provar que Var(bˆ 0) 5 s2/n 1 s2(x–)2/SQTx. (v) Faça os cálculos para simplificar a expressão no item (iv) para a equação (2.58). [Dica: SQTx /n 5 n21gn
+i51x2 i 2 (x–)2.]
+11. Suponha que você esteja interessado em estimar o efeito das horas gastas com um curso de preparação para o vestibular (hours) no total das notas do vestibular (sat). A população são todos os pré-universitários graduados no ensino médio em determinado ano. (i) Suponha que lhe tenha sido dada uma subvenção para executar um experimento controlado. Explique como você estruturaria o experimento para estimar o efeito causal de horas (hours) no vestibular (sat).
+
+ii) Considere o caso mais realístico em que os alunos decidem quanto tempo gasta-rão com um curso de preparação, e você só pode fazer amostragens aleatórias de sat e hours da população. Escreva o modelo populacional da seguinte forma
+sat 5 b0 1 b1hours 5 u
+em que, como sempre, num modelo com um intercepto, podemos assumir E(u) 5 0. Liste pelo menos dois fatores contidos em u. Existe a probabilidade de eles terem correlação negativa ou positiva com as horas gastas (hours)?
+(iii) Na equação do item (ii), qual deve ser o sinal de b1 se o curso de preparação for eficaz?
+(iv) Na equação do item (ii), qual é a interpretação de b0?
+12. Considere o problema descrito no fim da Seção 2.6: rodar uma regressão e estimar somente um intercepto. (i) Dada a amostra {yi: i 5 1, 2, . . . , n}, deixe b
+~ ser a solução para
+mín b0
+Mostre que b ~
+a n
+i51 5 y–, isto é, a média amostral minimiza a soma dos quadrados dos
+resíduos. (Dica: você pode usar cálculos de uma variável ou mostrar o resultado diretamente ao adicionar ou subtrair y–dentro do quadrado dos resíduos e, assim, usar um pouco de álgebra.) (ii) Defina os resíduos como u~ duos sempre somam zero.
+i 5 yi 2 y–. Dê argumentos justificando que estes resí-
